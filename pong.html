@@ -62,7 +62,69 @@ var game = function(){
     let player1;
     let player2;
 
-   
+    function start(){
+        init();
+        controlGame = setInterval(play, time);
+    }
+
+    function init(){
+        ball.style.left = 0;
+        ball.state = 1;
+        ball.direction = 1; // right 1, left 2
+        player1 = new Object();
+        player2 = new Object();
+        player1.keyPress = false;
+        player1.keyCode = null;
+        player2.keyPress = false;
+        player2.keyCode = null;
+    }
+
+    function stop(){
+        clearInterval(controlGame);
+        document.body.style.background = "#f00";
+    }
+
+    function play(){
+        moveBall();
+        moveBar();
+        checkIfLost();
+    }
+
+    function checkIfLost(){
+        if(ball.offsetLeft >= width){
+            stop();
+            console.log("punto player 1");
+        }
+        if(ball.offsetLeft <= 0){
+            stop();
+            console.log("punto player 2");
+        }
+    }
+
+    function moveBall(){
+        checkStateBall();
+        switch(ball.state){
+            case 1: // derecha, abajo
+                ball.style.left = (ball.offsetLeft + movement) +"px";
+                ball.style.top = (ball.offsetTop + movement) +"px";
+                break;
+            case 2: // derecha, arriba
+                ball.style.left = (ball.offsetLeft + movement) +"px";
+                ball.style.top = (ball.offsetTop - movement) +"px";
+                break;
+            case 3: // izquierda, abajo
+                ball.style.left = (ball.offsetLeft - movement) +"px";
+                ball.style.top = (ball.offsetTop + movement) +"px";
+                break;
+            case 4: // izquierda, arriba
+                ball.style.left = (ball.offsetLeft - movement) +"px";
+                ball.style.top = (ball.offsetTop - movement) +"px";
+                break;
+        }
+    }
+
+
+    start();
 }();
 </script>
 </html>
